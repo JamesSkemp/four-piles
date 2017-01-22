@@ -55,6 +55,9 @@
 			leftPlayerCardPile.anchor.set(0.5);
 			var rightPlayerCardPile = this.game.add.sprite(this.fourthCardPileX, this.playerCardPileY, 'cardBacks', 10);
 			rightPlayerCardPile.anchor.set(0.5);
+
+			var exampleCard = new Card(Rank.Ace, Suit.Spades);
+			console.log(exampleCard.toString());
 		}
 
 		update() {
