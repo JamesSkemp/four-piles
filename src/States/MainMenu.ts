@@ -1,4 +1,4 @@
-﻿module StarterProject {
+﻿module GameIdea45Project {
 	export class MainMenu extends Phaser.State {
 		create() {
 			console.log((new Date).toISOString() + ' : Entered MainMenu create()');
