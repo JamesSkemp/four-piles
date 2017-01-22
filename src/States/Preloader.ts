@@ -9,6 +9,8 @@
 			// Load the actual assets. By default the path will be set to the assets directory.
 			this.load.path = 'assets/';
 			// Assets loaded here can include image and audio files, as well as sprite sheets and more.
+			this.load.spritesheet('cardBacks', 'playingCardBacks.png', 140, 190, 15);
+			this.load.image('cardJoker');
 		}
 
 		create() {
