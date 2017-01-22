@@ -58,6 +58,11 @@
 
 			var exampleCard = new Card(Rank.Ace, Suit.Spades);
 			console.log(exampleCard.toString());
+
+			var newDeck = new Deck();
+			newDeck.addStandardCards();
+
+			console.log(newDeck.toString());
 		}
 
 		update() {
