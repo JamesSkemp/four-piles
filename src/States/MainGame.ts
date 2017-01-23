@@ -85,16 +85,6 @@
 
 			this.deck.shuffle();
 			console.log(this.deck.toString());
-
-			console.log(this.deck.cards.length);
-			console.log(this.deck.drawCard().toString());
-			console.log(this.deck.cards.length);
-			console.log(this.deck.drawCard().toString());
-			console.log(this.deck.cards.length);
-			console.log(this.deck.drawCard().toString());
-			console.log(this.deck.cards.length);
-			console.log(this.deck.drawCard().toString());
-			console.log(this.deck.cards.length);
 		}
 
 		update() {
@@ -103,21 +93,17 @@
 
 		paused() {
 			console.log((new Date).toISOString() + ' : Entered MainGame paused()');
-
 		}
 
 		pauseUpdate() {
-
 		}
 
 		resumed() {
 			console.log((new Date).toISOString() + ' : Entered MainGame resumed()');
-
 		}
 
 		shutdown() {
 			console.log((new Date).toISOString() + ' : Entered MainGame shutdown()');
-
 		}
 
 		setupPiles() {
