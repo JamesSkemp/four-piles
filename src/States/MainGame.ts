@@ -79,15 +79,17 @@
 			this.mainDeckCardPile = this.game.add.sprite(this.deckCardPile.x, this.deckCardPile.y, 'cardBacks', this.deckBackId);
 			this.mainDeckCardPile.anchor.set(0.5);
 
-			var exampleCard = new Card(Rank.Ace, Suit.Spades);
-			console.log(exampleCard.toString());
-
 			var newDeck = new Deck();
 			newDeck.createStandardDeck();
 			console.log(newDeck.toString());
 
 			newDeck.shuffle();
 			console.log(newDeck.toString());
+
+			this.temporaryCard = new PlayingCard(this.game, this.mainDeckCardPile.x, this.mainDeckCardPile.y, null, this.deckBackId);
+			//this.temporaryCard = new PlayingCard(this.game, this.mainDeckCardPile.x, this.mainDeckCardPile.y, newDeck.cards[0], this.deckBackId);
+			//this.game.world.bringToTop(this.temporaryCard);
+			console.log(this.temporaryCard.key);
 		}
 
 		update() {
