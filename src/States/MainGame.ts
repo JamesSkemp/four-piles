@@ -15,6 +15,15 @@
 
 		deckBackId: number = 10;
 
+		firstPile: Phaser.Sprite;
+		secondPile: Phaser.Sprite;
+		thirdPile: Phaser.Sprite;
+		fourthPile: Phaser.Sprite;
+		leftPlayerCardPile: Phaser.Sprite;
+		rightPlayerCardPile: Phaser.Sprite;
+		mainDeckCardPile: Phaser.Sprite;
+		temporaryCard: Phaser.Sprite;
+
 		init() {
 			console.log((new Date).toISOString() + ' : Entered MainGame init()');
 			// init can receive parameters.
@@ -47,24 +56,28 @@
 		create() {
 			console.log((new Date).toISOString() + ' : Entered MainGame create()');
 
-			var firstPile = this.game.add.sprite(this.firstCardPile.x, this.firstCardPile.y, 'cardJoker');
-			firstPile.anchor.set(0.5);
-			var secondPile = this.game.add.sprite(this.secondCardPile.x, this.secondCardPile.y, 'cardJoker');
-			secondPile.anchor.set(0.5);
-			var thirdPile = this.game.add.sprite(this.thirdCardPile.x, this.thirdCardPile.y, 'cardJoker');
-			thirdPile.anchor.set(0.5);
-			var fourthPile = this.game.add.sprite(this.fourthCardPile.x, this.fourthCardPile.y, 'cardJoker');
-			fourthPile.anchor.set(0.5);
+			this.firstPile = this.game.add.sprite(this.firstCardPile.x, this.firstCardPile.y, 'cardJoker');
+			this.firstPile.anchor.set(0.5);
 
-			var leftPlayerCardPile = this.game.add.sprite(this.firstCardPileX, this.playerCardPileY, 'cardBacks', this.deckBackId);
-			leftPlayerCardPile.visible = false;
-			leftPlayerCardPile.anchor.set(0.5);
-			var rightPlayerCardPile = this.game.add.sprite(this.fourthCardPileX, this.playerCardPileY, 'cardBacks', this.deckBackId);
-			rightPlayerCardPile.visible = false;
-			rightPlayerCardPile.anchor.set(0.5);
+			this.secondPile = this.game.add.sprite(this.secondCardPile.x, this.secondCardPile.y, 'cardJoker');
+			this.secondPile.anchor.set(0.5);
 
-			var mainDeckCardPile = this.game.add.sprite(this.deckCardPile.x, this.deckCardPile.y, 'cardBacks', this.deckBackId);
-			mainDeckCardPile.anchor.set(0.5);
+			this.thirdPile = this.game.add.sprite(this.thirdCardPile.x, this.thirdCardPile.y, 'cardJoker');
+			this.thirdPile.anchor.set(0.5);
+
+			this.fourthPile = this.game.add.sprite(this.fourthCardPile.x, this.fourthCardPile.y, 'cardJoker');
+			this.fourthPile.anchor.set(0.5);
+
+			this.leftPlayerCardPile = this.game.add.sprite(this.firstCardPileX, this.playerCardPileY, 'cardBacks', this.deckBackId);
+			this.leftPlayerCardPile.visible = false;
+			this.leftPlayerCardPile.anchor.set(0.5);
+			
+			this.rightPlayerCardPile = this.game.add.sprite(this.fourthCardPileX, this.playerCardPileY, 'cardBacks', this.deckBackId);
+			this.rightPlayerCardPile.visible = false;
+			this.rightPlayerCardPile.anchor.set(0.5);
+
+			this.mainDeckCardPile = this.game.add.sprite(this.deckCardPile.x, this.deckCardPile.y, 'cardBacks', this.deckBackId);
+			this.mainDeckCardPile.anchor.set(0.5);
 
 			var exampleCard = new Card(Rank.Ace, Suit.Spades);
 			console.log(exampleCard.toString());
