@@ -7,10 +7,6 @@
 		cardPileY: number;
 		playerCardPileY: number;
 
-		firstCardPile: Phaser.Point;
-		secondCardPile: Phaser.Point;
-		thirdCardPile: Phaser.Point;
-		fourthCardPile: Phaser.Point;
 		deckCardPile: Phaser.Point;
 
 		deckBackId: number = 10;
@@ -35,11 +31,6 @@
 			this.cardPileY = this.game.world.centerY / 2;
 			this.playerCardPileY = this.game.world.centerY * 1.5;
 
-			this.firstCardPile = new Phaser.Point(this.firstCardPileX, this.cardPileY);
-			this.secondCardPile = new Phaser.Point(this.secondCardPileX, this.cardPileY);
-			this.thirdCardPile = new Phaser.Point(this.thirdCardPileX, this.cardPileY);
-			this.fourthCardPile = new Phaser.Point(this.fourthCardPileX, this.cardPileY);
-
 			this.deckCardPile = new Phaser.Point(this.game.world.centerX, this.playerCardPileY);
 		}
 
@@ -56,16 +47,16 @@
 		create() {
 			console.log((new Date).toISOString() + ' : Entered MainGame create()');
 
-			this.firstPile = this.game.add.sprite(this.firstCardPile.x, this.firstCardPile.y, 'cardJoker');
+			this.firstPile = this.game.add.sprite(this.firstCardPileX, this.cardPileY, 'cardJoker');
 			this.firstPile.anchor.set(0.5);
 
-			this.secondPile = this.game.add.sprite(this.secondCardPile.x, this.secondCardPile.y, 'cardJoker');
+			this.secondPile = this.game.add.sprite(this.secondCardPileX, this.cardPileY, 'cardJoker');
 			this.secondPile.anchor.set(0.5);
 
-			this.thirdPile = this.game.add.sprite(this.thirdCardPile.x, this.thirdCardPile.y, 'cardJoker');
+			this.thirdPile = this.game.add.sprite(this.thirdCardPileX, this.cardPileY, 'cardJoker');
 			this.thirdPile.anchor.set(0.5);
 
-			this.fourthPile = this.game.add.sprite(this.fourthCardPile.x, this.fourthCardPile.y, 'cardJoker');
+			this.fourthPile = this.game.add.sprite(this.fourthCardPileX, this.cardPileY, 'cardJoker');
 			this.fourthPile.anchor.set(0.5);
 
 			this.leftPlayerCardPile = this.game.add.sprite(this.firstCardPileX, this.playerCardPileY, 'cardBacks', this.deckBackId);
