@@ -60,8 +60,10 @@
 			console.log(exampleCard.toString());
 
 			var newDeck = new Deck();
-			newDeck.addStandardCards();
+			newDeck.createStandardDeck();
+			console.log(newDeck.toString());
 
+			newDeck.shuffle();
 			console.log(newDeck.toString());
 		}
 
