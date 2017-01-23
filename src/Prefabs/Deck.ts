@@ -31,6 +31,14 @@ module GameIdea45Project {
 			}
 		}
 
+		drawCard(): Card {
+			if (this.cards.length <= 0) {
+				return null;
+			}
+
+			return this.cards.shift();
+		}
+
 		toString(): string {
 			return this.cards.join('\n');
 		}
