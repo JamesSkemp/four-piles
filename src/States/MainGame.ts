@@ -56,11 +56,17 @@
 			this.firstPile.setupTween = this.game.add.tween(this.firstPile);
 			this.firstPile.setupTween.to({ x: this.firstCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None);
 
-			this.secondPile = new CardPile(this.game, this.secondCardPileX, -this.cardPileY, this.deckBackId, true, true);
+			this.secondPile = new CardPile(this.game, this.deckCardPile.x, -this.cardPileY, this.deckBackId, true, true);
+			this.secondPile.setupTween = this.game.add.tween(this.secondPile);
+			this.secondPile.setupTween.to({ x: this.secondCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None);
 
-			this.thirdPile = new CardPile(this.game, this.thirdCardPileX, -this.cardPileY, this.deckBackId, true, true);
+			this.thirdPile = new CardPile(this.game, this.deckCardPile.x, -this.cardPileY, this.deckBackId, true, true);
+			this.thirdPile.setupTween = this.game.add.tween(this.thirdPile);
+			this.thirdPile.setupTween.to({ x: this.thirdCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None);
 
-			this.fourthPile = new CardPile(this.game, this.fourthCardPileX, -this.cardPileY, this.deckBackId, true, true);
+			this.fourthPile = new CardPile(this.game, this.deckCardPile.x, -this.cardPileY, this.deckBackId, true, true);
+			this.fourthPile.setupTween = this.game.add.tween(this.fourthPile);
+			this.fourthPile.setupTween.to({ x: this.fourthCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None);
 
 			this.leftPlayerCardPile = this.game.add.sprite(this.firstCardPileX, this.playerCardPileY, 'cardBacks', this.deckBackId);
 			this.leftPlayerCardPile.visible = false;
@@ -141,54 +147,44 @@
 				var tweenToSecondPile = this.game.add.tween(this.temporaryCard);
 				tweenToSecondPile.to({ y: -this.temporaryCard.height }, 1000, Phaser.Easing.Linear.None);
 				tweenToSecondPile.onComplete.addOnce(() => {
-					var innerTween = this.game.add.tween(this.temporaryCard);
-					topCard = this.deck.cards[1];
-					this.temporaryCard.loadTexture(topCard.getCardKeyName());
-					innerTween.to({ x: this.secondCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None, true);
-					innerTween.onComplete.addOnce(() => {
-						this.secondPile.loadTexture(topCard.getCardKeyName());
-						this.temporaryCard.visible = false;
-						this.temporaryCard.position = this.mainDeckCardPile.position;
-						this.temporaryCard.loadTexture('cardBacks', this.deckBackId);
-						this.temporaryCard.visible = true;
-						console.log(this.temporaryCard);
-					});
+					topCard = this.deck.drawCard();
+					this.secondPile.addCard(topCard);
+					this.secondPile.setupTween.start();
+
+					this.temporaryCard.visible = false;
+					this.temporaryCard.position = this.mainDeckCardPile.position;
+					this.temporaryCard.loadTexture('cardBacks', this.deckBackId);
+					this.temporaryCard.visible = true;
+					console.log(this.temporaryCard);
 				});
 
 				var tweenToThirdPile = this.game.add.tween(this.temporaryCard);
 				tweenToThirdPile.to({ y: -this.temporaryCard.height }, 1000, Phaser.Easing.Linear.None);
 				tweenToThirdPile.onComplete.addOnce(() => {
-					var innerTween = this.game.add.tween(this.temporaryCard);
-					topCard = this.deck.cards[2];
-					this.temporaryCard.loadTexture(topCard.getCardKeyName());
-					innerTween.to({ x: this.thirdCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None, true);
-					innerTween.onComplete.addOnce(() => {
-						this.thirdPile.loadTexture(topCard.getCardKeyName());
-						this.temporaryCard.visible = false;
-						this.temporaryCard.position = this.mainDeckCardPile.position;
-						this.temporaryCard.loadTexture('cardBacks', this.deckBackId);
-						this.temporaryCard.visible = true;
-						console.log(this.temporaryCard);
-					});
+					topCard = this.deck.drawCard();
+					this.thirdPile.addCard(topCard);
+					this.thirdPile.setupTween.start();
+
+					this.temporaryCard.visible = false;
+					this.temporaryCard.position = this.mainDeckCardPile.position;
+					this.temporaryCard.loadTexture('cardBacks', this.deckBackId);
+					this.temporaryCard.visible = true;
+					console.log(this.temporaryCard);
 				});
 
 				var tweenToFourthPile = this.game.add.tween(this.temporaryCard);
 				tweenToFourthPile.to({ y: -this.temporaryCard.height }, 1000, Phaser.Easing.Linear.None);
 				tweenToFourthPile.onComplete.addOnce(() => {
-					var innerTween = this.game.add.tween(this.temporaryCard);
-					topCard = this.deck.cards[3];
-					this.temporaryCard.loadTexture(topCard.getCardKeyName());
-					innerTween.to({ x: this.fourthCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None, true);
-					innerTween.onComplete.addOnce(() => {
-						this.fourthPile.loadTexture(topCard.getCardKeyName());
-						this.temporaryCard.visible = false;
-						this.temporaryCard.position = this.mainDeckCardPile.position;
-						this.temporaryCard.loadTexture('cardBacks', this.deckBackId);
-						this.temporaryCard.visible = true;
-						console.log(this.temporaryCard);
-					});
-				});
+					topCard = this.deck.drawCard();
+					this.fourthPile.addCard(topCard);
+					this.fourthPile.setupTween.start();
 
+					this.temporaryCard.visible = false;
+					this.temporaryCard.position = this.mainDeckCardPile.position;
+					this.temporaryCard.loadTexture('cardBacks', this.deckBackId);
+					this.temporaryCard.visible = true;
+					console.log(this.temporaryCard);
+				});
 
 				//tweenToFirstPile.chain(tweenToSecondPile.chain(tweenToThirdPile.chain(tweenToFourthPile)));
 
