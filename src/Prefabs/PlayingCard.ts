@@ -12,19 +12,10 @@ module GameIdea45Project {
 			console.log(this.card);
 
 			if (this.card) {
-				this.loadTexture('card' + Suit[this.card.suit] + this.card.rank);
+				this.loadTexture(this.card.getCardKeyName());
 			}
 
 			game.add.existing(this);
-
-			/*if (
-				card.rank >= Rank.Ace && card.rank <= Rank.King
-				&& card.suit >= Suit.Spades && card.suit <= Suit.Diamonds
-			) {
-				
-			}*/
 		}
-
-
 	}
 }
