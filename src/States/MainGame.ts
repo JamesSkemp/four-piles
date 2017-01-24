@@ -20,7 +20,9 @@
 		rightPlayerCardPile: Phaser.Sprite;
 		mainDeckCardPile: Phaser.Sprite;
 		temporaryCard: Phaser.Sprite;
-
+		/**
+		 * Collection of PlayingCard, with one for each card in the Deck.
+		 */
 		availableCards: Phaser.Group;
 
 		pileSetupStarted: boolean = false;

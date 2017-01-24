@@ -8,6 +8,9 @@ module GameIdea45Project {
 		constructor() {
 		}
 
+		/**
+		 * Create standard deck of 52 cards.
+		 */
 		createStandardDeck(): void {
 			this.suits = [Suit.Spades, Suit.Hearts, Suit.Clubs, Suit.Diamonds];
 			this.ranks = [Rank.Ace, Rank.Two, Rank.Three, Rank.Four, Rank.Five, Rank.Six, Rank.Seven, Rank.Eight, Rank.Nine, Rank.Ten, Rank.Jack, Rank.Queen, Rank.King];
