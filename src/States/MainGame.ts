@@ -21,6 +21,8 @@
 		mainDeckCardPile: Phaser.Sprite;
 		temporaryCard: Phaser.Sprite;
 
+		availableCards: Phaser.Group;
+
 		pileSetupStarted: boolean = false;
 
 		deck: Deck;
@@ -85,6 +87,18 @@
 
 			this.deck.shuffle();
 			console.log(this.deck.toString());
+
+			this.availableCards = this.game.add.group();
+			this.availableCards.classType = PlayingCard;
+			//for (var i = 0; i < this.deck.cards.length; i++) {
+			for (var i = this.deck.cards.length - 1; i >= 0; i--) {
+				console.log(i);
+				this.availableCards.add(new PlayingCard(this.game, this.deckCardPile.x, 0 + (i * 5), this.deck.cards[i], this.deckBackId));
+			}
+
+			//this.availableCards.createMultiple(this.deck.cards.length, 'cardBacks' + this.deckBackId);
+
+
 		}
 
 		update() {
