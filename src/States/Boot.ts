@@ -12,6 +12,8 @@
 			// Uncomment to place our game in the center of the screen both horizontally and vertically.
 			//this.scale.pageAlignHorizontally = true;
 			//this.scale.pageAlignVertically = true;
+
+			this.game.stage.backgroundColor = '#0E4741';
 		}
 
 		preload() {
