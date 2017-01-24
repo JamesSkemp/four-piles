@@ -3,13 +3,11 @@
 		mainDeck: Phaser.Sprite;
 		mainDeckTween: Phaser.Tween;
 
-		deckBackId: number = 10;
-
 		create() {
 			console.log((new Date).toISOString() + ' : Entered MainMenu create()');
 
 			// Handle user input as needed.
-			this.mainDeck = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'cardBacks', this.deckBackId);
+			this.mainDeck = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'cardBacks', Game.DECK_BACK_ID);
 			this.mainDeck.anchor.set(0.5);
 			this.mainDeck.inputEnabled = true;
 

@@ -9,8 +9,6 @@
 
 		deckCardPile: Phaser.Point;
 
-		deckBackId: number = 10;
-
 		firstPile: CardPile;
 		secondPile: CardPile;
 		thirdPile: CardPile;
@@ -56,31 +54,31 @@
 		create() {
 			console.log((new Date).toISOString() + ' : Entered MainGame create()');
 
-			this.firstPile = new CardPile(this.game, this.deckCardPile.x, -this.cardPileY, this.deckBackId, true, true);
+			this.firstPile = new CardPile(this.game, this.deckCardPile.x, -this.cardPileY, Game.DECK_BACK_ID, true, true);
 			this.firstPile.setupTween = this.game.add.tween(this.firstPile);
 			this.firstPile.setupTween.to({ x: this.firstCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None);
 
-			this.secondPile = new CardPile(this.game, this.deckCardPile.x, -this.cardPileY, this.deckBackId, true, true);
+			this.secondPile = new CardPile(this.game, this.deckCardPile.x, -this.cardPileY, Game.DECK_BACK_ID, true, true);
 			this.secondPile.setupTween = this.game.add.tween(this.secondPile);
 			this.secondPile.setupTween.to({ x: this.secondCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None);
 
-			this.thirdPile = new CardPile(this.game, this.deckCardPile.x, -this.cardPileY, this.deckBackId, true, true);
+			this.thirdPile = new CardPile(this.game, this.deckCardPile.x, -this.cardPileY, Game.DECK_BACK_ID, true, true);
 			this.thirdPile.setupTween = this.game.add.tween(this.thirdPile);
 			this.thirdPile.setupTween.to({ x: this.thirdCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None);
 
-			this.fourthPile = new CardPile(this.game, this.deckCardPile.x, -this.cardPileY, this.deckBackId, true, true);
+			this.fourthPile = new CardPile(this.game, this.deckCardPile.x, -this.cardPileY, Game.DECK_BACK_ID, true, true);
 			this.fourthPile.setupTween = this.game.add.tween(this.fourthPile);
 			this.fourthPile.setupTween.to({ x: this.fourthCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None);
 
-			this.leftPlayerCardPile = this.game.add.sprite(this.firstCardPileX, this.playerCardPileY, 'cardBacks', this.deckBackId);
+			this.leftPlayerCardPile = this.game.add.sprite(this.firstCardPileX, this.playerCardPileY, 'cardBacks', Game.DECK_BACK_ID);
 			this.leftPlayerCardPile.visible = false;
 			this.leftPlayerCardPile.anchor.set(0.5);
 			
-			this.rightPlayerCardPile = this.game.add.sprite(this.fourthCardPileX, this.playerCardPileY, 'cardBacks', this.deckBackId);
+			this.rightPlayerCardPile = this.game.add.sprite(this.fourthCardPileX, this.playerCardPileY, 'cardBacks', Game.DECK_BACK_ID);
 			this.rightPlayerCardPile.visible = false;
 			this.rightPlayerCardPile.anchor.set(0.5);
 
-			this.mainDeckCardPile = new CardPile(this.game, this.deckCardPile.x, this.deckCardPile.y, this.deckBackId, false, false);
+			this.mainDeckCardPile = new CardPile(this.game, this.deckCardPile.x, this.deckCardPile.y, Game.DECK_BACK_ID, false, false);
 			this.mainDeckCardPile.events.onInputDown.add(this.setupPiles, this);
 
 			this.deck = new Deck();
@@ -94,11 +92,10 @@
 			this.availableCards.classType = PlayingCard;
 			//for (var i = 0; i < this.deck.cards.length; i++) {
 			for (var i = this.deck.cards.length - 1; i >= 0; i--) {
-				console.log(i);
-				this.availableCards.add(new PlayingCard(this.game, this.deckCardPile.x, 0 + (i * 5), this.deck.cards[i], this.deckBackId));
+				this.availableCards.add(new PlayingCard(this.game, this.deckCardPile.x, 0 + (i * 5), this.deck.cards[i], Game.DECK_BACK_ID));
 			}
 
-			//this.availableCards.createMultiple(this.deck.cards.length, 'cardBacks' + this.deckBackId);
+			//this.availableCards.createMultiple(this.deck.cards.length, 'cardBacks', Game.DECK_BACK_ID);
 
 
 		}
@@ -131,7 +128,7 @@
 				this.mainDeckCardPile.inputEnabled = false;
 
 				// Create a new temporary card to move around the screen.
-				this.temporaryCard = new PlayingCard(this.game, this.mainDeckCardPile.x, this.mainDeckCardPile.y, null, this.deckBackId);
+				this.temporaryCard = new PlayingCard(this.game, this.mainDeckCardPile.x, this.mainDeckCardPile.y, null, Game.DECK_BACK_ID);
 
 				var topCard = this.deck.drawCard();
 
@@ -140,10 +137,8 @@
 				tweenToFirstPile.onComplete.addOnce(() => {
 					this.firstPile.addCard(topCard);
 					this.firstPile.setupTween.start();
-					this.temporaryCard.visible = false;
 					this.temporaryCard.position = this.mainDeckCardPile.position;
-					this.temporaryCard.loadTexture('cardBacks', this.deckBackId);
-					this.temporaryCard.visible = true;
+					this.temporaryCard.loadTexture('cardBacks', Game.DECK_BACK_ID);
 				});
 
 				var tweenToSecondPile = this.game.add.tween(this.temporaryCard);
@@ -153,10 +148,8 @@
 					this.secondPile.addCard(topCard);
 					this.secondPile.setupTween.start();
 
-					this.temporaryCard.visible = false;
 					this.temporaryCard.position = this.mainDeckCardPile.position;
-					this.temporaryCard.loadTexture('cardBacks', this.deckBackId);
-					this.temporaryCard.visible = true;
+					this.temporaryCard.loadTexture('cardBacks', Game.DECK_BACK_ID);
 					console.log(this.temporaryCard);
 				});
 
@@ -167,10 +160,8 @@
 					this.thirdPile.addCard(topCard);
 					this.thirdPile.setupTween.start();
 
-					this.temporaryCard.visible = false;
 					this.temporaryCard.position = this.mainDeckCardPile.position;
-					this.temporaryCard.loadTexture('cardBacks', this.deckBackId);
-					this.temporaryCard.visible = true;
+					this.temporaryCard.loadTexture('cardBacks', Game.DECK_BACK_ID);
 					console.log(this.temporaryCard);
 				});
 
@@ -181,10 +172,8 @@
 					this.fourthPile.addCard(topCard);
 					this.fourthPile.setupTween.start();
 
-					this.temporaryCard.visible = false;
 					this.temporaryCard.position = this.mainDeckCardPile.position;
-					this.temporaryCard.loadTexture('cardBacks', this.deckBackId);
-					this.temporaryCard.visible = true;
+					this.temporaryCard.loadTexture('cardBacks', Game.DECK_BACK_ID);
 					console.log(this.temporaryCard);
 				});
 
@@ -192,8 +181,8 @@
 
 				tweenToFirstPile.start();
 
-			//this.temporaryCard = new PlayingCard(this.game, this.mainDeckCardPile.x, this.mainDeckCardPile.y, null, this.deckBackId);
-			//this.temporaryCard = new PlayingCard(this.game, this.mainDeckCardPile.x, this.mainDeckCardPile.y, newDeck.cards[0], this.deckBackId);
+			//this.temporaryCard = new PlayingCard(this.game, this.mainDeckCardPile.x, this.mainDeckCardPile.y, null, Game.DECK_BACK_ID);
+			//this.temporaryCard = new PlayingCard(this.game, this.mainDeckCardPile.x, this.mainDeckCardPile.y, newDeck.cards[0], Game.DECK_BACK_ID);
 			//this.game.world.bringToTop(this.temporaryCard);
 			//console.log(this.temporaryCard.key);
 
