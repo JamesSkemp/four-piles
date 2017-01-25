@@ -140,7 +140,7 @@
 
 			if (this.availableCards.length > 4) {
 				// Start setting up the piles of cards.
-				this.setupPiles();
+				this.setupPlayPiles();
 			}
 		}
 
@@ -163,7 +163,10 @@
 			console.log((new Date).toISOString() + ' : Entered MainGame shutdown()');
 		}
 
-		setupPiles() {
+		/**
+		 * Setup four play piles.
+		 */
+		setupPlayPiles() {
 			//console.log(arguments);
 			if (!this.pileSetupStarted) {
 				this.pileSetupStarted = true;
