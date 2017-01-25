@@ -92,21 +92,25 @@
 			// Setup the four main piles that cards will be played to.
 			this.firstPile = new CardPile(this.game, this.firstCardPileX, this.cardPileY, Game.DECK_BACK_ID, true, true);
 			this.firstPileCards = new Phaser.Group(this.game);
+			this.firstPileCards.name = "pile1";
 			//this.firstPile.setupTween = this.game.add.tween(this.firstPile);
 			//this.firstPile.setupTween.to({ x: this.firstCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None);
 
 			this.secondPile = new CardPile(this.game, this.secondCardPileX, this.cardPileY, Game.DECK_BACK_ID, true, true);
 			this.secondPileCards = new Phaser.Group(this.game);
+			this.secondPileCards.name = "pile2";
 			//this.secondPile.setupTween = this.game.add.tween(this.secondPile);
 			//this.secondPile.setupTween.to({ x: this.secondCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None);
 
 			this.thirdPile = new CardPile(this.game, this.thirdCardPileX, this.cardPileY, Game.DECK_BACK_ID, true, true);
 			this.thirdPileCards = new Phaser.Group(this.game);
+			this.thirdPileCards.name = "pile3";
 			//this.thirdPile.setupTween = this.game.add.tween(this.thirdPile);
 			//this.thirdPile.setupTween.to({ x: this.thirdCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None);
 
 			this.fourthPile = new CardPile(this.game, this.fourthCardPileX, this.cardPileY, Game.DECK_BACK_ID, true, true);
 			this.fourthPileCards = new Phaser.Group(this.game);
+			this.fourthPileCards.name = "pile4";
 			//this.fourthPile.setupTween = this.game.add.tween(this.fourthPile);
 			//this.fourthPile.setupTween.to({ x: this.fourthCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None);
 
@@ -143,6 +147,9 @@
 				//this.availableCards.add(new PlayingCard(this.game, this.deckCardPile.x, 0 + (i * 5), this.deck.cards[i], Game.DECK_BACK_ID));
 				this.availableCards.add(new PlayingCard(this.game, this.cardStartingLocation.x, this.cardStartingLocation.y, this.deck.cards[i], Game.DECK_BACK_ID));
 			}
+			this.availableCards.forEach((individualCard: PlayingCard) => {
+				individualCard.events.onInputDown.add(this.playingCardSelected, this);
+			}, this);
 
 			// Create a stack of back-only cards that will be dealt into the player piles.
 			this.temporaryDealingCards = this.game.add.group();
@@ -254,6 +261,25 @@
 		}
 
 		/**
+		 * Deal a card to the next player.
+		 */
+		dealNextCard() {
+			if (this.currentDeckPosition >= this.deck.cards.length) {
+				return;
+			}
+
+			if (this.currentPlayer == 1) {
+				this.currentPlayer = 2;
+			} else {
+				this.currentPlayer = 1;
+			}
+
+			var dealingLocation = this.getCardDealLocation();
+
+			var dealingTween = this.game.add.tween(this.availableCards.getAt(this.currentDeckPosition)).to({ x: dealingLocation.x, y: dealingLocation.y }, 1000, Phaser.Easing.Linear.None, true);
+		}
+
+		/**
 		 * Get the location to deal the card for the next player.
 		 */
 		getCardDealLocation(): Phaser.Point {
@@ -307,6 +333,56 @@
 			//tweenToFirstPile.start();
 
 
+		}
+
+		playingCardSelected(card: PlayingCard) {
+			var lastDealtCard = this.availableCards.getAt(this.currentDeckPosition) as PlayingCard;
+
+			if (card.parent) {
+				var groupName = (card.parent as Phaser.Group).name;
+				var movementTween = this.game.add.tween(lastDealtCard);
+
+				console.log('a playing card was selected');
+				if (groupName == "pile1") {
+					console.log('move to pile 1');
+					movementTween.to({ x: this.firstPile.x, y: this.firstPile.y }, 1000, Phaser.Easing.Linear.None);
+					movementTween.onComplete.addOnce(() => {
+						this.firstPile.addCard(lastDealtCard.card);
+						this.firstPileCards.add(lastDealtCard);
+						this.dealNextCard();
+					});
+					movementTween.start();
+				} else if (groupName == "pile2") {
+					console.log('move to pile 2');
+					movementTween.to({ x: this.secondPile.x, y: this.secondPile.y }, 1000, Phaser.Easing.Linear.None);
+					movementTween.onComplete.addOnce(() => {
+						this.secondPile.addCard(lastDealtCard.card);
+						this.secondPileCards.add(lastDealtCard);
+						this.dealNextCard();
+					});
+					movementTween.start();
+				} else if (groupName == "pile3") {
+					console.log('move to pile 3');
+					movementTween.to({ x: this.thirdPile.x, y: this.thirdPile.y }, 1000, Phaser.Easing.Linear.None);
+					movementTween.onComplete.addOnce(() => {
+						this.thirdPile.addCard(lastDealtCard.card);
+						this.thirdPileCards.add(lastDealtCard);
+						this.dealNextCard();
+					});
+					movementTween.start();
+				} else if (groupName == "pile4") {
+					console.log('move to pile 4');
+					movementTween.to({ x: this.fourthPile.x, y: this.fourthPile.y }, 1000, Phaser.Easing.Linear.None);
+					movementTween.onComplete.addOnce(() => {
+						this.fourthPile.addCard(lastDealtCard.card);
+						this.fourthPileCards.add(lastDealtCard);
+						this.dealNextCard();
+					});
+					movementTween.start();
+				}
+			}
+			console.log(card);
+			//console.log(arguments);
 		}
 	}
 }

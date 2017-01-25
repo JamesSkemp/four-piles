@@ -9,7 +9,7 @@ module GameIdea45Project {
 			this.anchor.set(0.5);
 			this.inputEnabled = true;
 
-			console.log(this.card);
+			//console.log(this.card);
 
 			if (this.card) {
 				this.loadTexture(this.card.getCardKeyName());
