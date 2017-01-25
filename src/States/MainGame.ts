@@ -171,19 +171,11 @@
 			if (!this.pileSetupStarted) {
 				this.pileSetupStarted = true;
 
-				console.log("Setting up piles.");
-
 				// Grab the first four cards off the top of the deck.
-				console.log(this.availableCards.length);
-				console.log(this.availableCards);
 				var firstPileCard = this.availableCards.getAt(0) as PlayingCard;
 				var secondPileCard = this.availableCards.getAt(1) as PlayingCard;
 				var thirdPileCard = this.availableCards.getAt(2) as PlayingCard;
 				var fourthPileCard = this.availableCards.getAt(3) as PlayingCard;
-				console.log(firstPileCard);
-				console.log(secondPileCard);
-				console.log(thirdPileCard);
-				console.log(fourthPileCard);
 
 				// Setup tweens on each of the four cards to move them to the correct starting piles.
 				var tweenToFirstPile = this.game.add.tween(firstPileCard);
@@ -191,7 +183,6 @@
 				tweenToFirstPile.onComplete.addOnce(() => {
 					this.firstPile.addCard(firstPileCard.card);
 					this.firstPileCards.add(firstPileCard);
-					//this.firstPile.setupTween.start();
 				});
 
 				var tweenToSecondPile = this.game.add.tween(secondPileCard);
@@ -199,7 +190,6 @@
 				tweenToSecondPile.onComplete.addOnce(() => {
 					this.secondPile.addCard(secondPileCard.card);
 					this.secondPileCards.add(secondPileCard);
-					//this.secondPile.setupTween.start();
 				});
 
 				var tweenToThirdPile = this.game.add.tween(thirdPileCard);
@@ -207,9 +197,6 @@
 				tweenToThirdPile.onComplete.addOnce(() => {
 					this.thirdPile.addCard(thirdPileCard.card);
 					this.thirdPileCards.add(thirdPileCard);
-					//this.thirdPile.setupTween.start();
-					console.log('thirdPileCard');
-					console.log(thirdPileCard);
 				});
 
 				var tweenToFourthPile = this.game.add.tween(fourthPileCard);
@@ -217,13 +204,9 @@
 				tweenToFourthPile.onComplete.addOnce(() => {
 					this.fourthPile.addCard(fourthPileCard.card);
 					this.fourthPileCards.add(fourthPileCard);
-					//this.fourthPile.setupTween.start();
 				});
 
 				tweenToFirstPile.chain(tweenToSecondPile.chain(tweenToThirdPile.chain(tweenToFourthPile)));
-				//tweenToThirdPile.chain(tweenToFourthPile);
-				//tweenToSecondPile.chain(tweenToThirdPile);
-				//tweenToFirstPile.chain(tweenToSecondPile);
 
 				tweenToFirstPile.start();
 
@@ -236,12 +219,9 @@
 			//this.temporaryCard = new PlayingCard(this.game, this.mainDeckCardPile.x, this.mainDeckCardPile.y, null, Game.DECK_BACK_ID);
 			//this.temporaryCard = new PlayingCard(this.game, this.mainDeckCardPile.x, this.mainDeckCardPile.y, newDeck.cards[0], Game.DECK_BACK_ID);
 			//this.game.world.bringToTop(this.temporaryCard);
-			//console.log(this.temporaryCard.key);
 
 
 				//this.mainDeckCardPile.events.onInputDown.remove(this.setupPiles);
-
-				//this.mainDeckCardPile.visible = false;
 			}
 
 		}
