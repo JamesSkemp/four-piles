@@ -62,6 +62,8 @@
 		 */
 		currentDeckPosition: number = 0;
 
+		canPlayCard: boolean = false;;
+
 		init() {
 			console.log((new Date).toISOString() + ' : Entered MainGame init()');
 			// init can receive parameters.
@@ -258,16 +260,20 @@
 			var dealingLocation = this.getCardDealLocation();
 
 			var dealingTween = this.game.add.tween(this.availableCards.getAt(this.currentDeckPosition)).to({ x: dealingLocation.x, y: dealingLocation.y }, 1000, Phaser.Easing.Linear.None, true);
+			dealingTween.onComplete.addOnce(() => {
+				this.canPlayCard = true;
+			}, this);
 		}
 
 		/**
 		 * Deal a card to the next player.
 		 */
 		dealNextCard() {
-			if (this.currentDeckPosition >= this.deck.cards.length) {
+			if (this.currentDeckPosition >= this.deck.cards.length || !this.canPlayCard) {
 				return;
 			}
 
+			this.canPlayCard = false;
 			if (this.currentPlayer == 1) {
 				this.currentPlayer = 2;
 			} else {
@@ -277,6 +283,9 @@
 			var dealingLocation = this.getCardDealLocation();
 
 			var dealingTween = this.game.add.tween(this.availableCards.getAt(this.currentDeckPosition)).to({ x: dealingLocation.x, y: dealingLocation.y }, 1000, Phaser.Easing.Linear.None, true);
+			dealingTween.onComplete.addOnce(() => {
+				this.canPlayCard = true;
+			}, this);
 		}
 
 		/**
@@ -305,7 +314,6 @@
 			tweenToLeftPlayerPile1.to({ x: this.leftPlayerPile.x, y: this.leftPlayerPile.y }, 1000, Phaser.Easing.Linear.None);
 			tweenToLeftPlayerPile1.onComplete.addOnce(() => {
 				this.leftPlayerCardPile.visible = true;
-				console.log('left 1');
 			});
 			var tweenToLeftPlayerPile2 = this.game.add.tween(leftPlayerTemp2);
 			tweenToLeftPlayerPile2.to({ x: this.leftPlayerPile.x, y: this.leftPlayerPile.y }, 1000, Phaser.Easing.Linear.None);
@@ -316,7 +324,6 @@
 			tweenToRightPlayerPile1.to({ x: this.rightPlayerPile.x, y: this.rightPlayerPile.y }, 1000, Phaser.Easing.Linear.None);
 			tweenToRightPlayerPile1.onComplete.addOnce(() => {
 				this.rightPlayerCardPile.visible = true;
-				console.log('right 1');
 			});
 			var tweenToRightPlayerPile2 = this.game.add.tween(rightPlayerTemp2);
 			tweenToRightPlayerPile2.to({ x: this.rightPlayerPile.x, y: this.rightPlayerPile.y }, 1000, Phaser.Easing.Linear.None);
@@ -327,15 +334,13 @@
 			tweenToLeftPlayerPile1.chain(tweenToRightPlayerPile1.chain(tweenToLeftPlayerPile2.chain(tweenToRightPlayerPile2.chain(tweenToLeftPlayerPile3.chain(tweenToRightPlayerPile3)))));
 
 			tweenToLeftPlayerPile1.start();
-
-			//tweenToFirstPile.chain(tweenToSecondPile.chain(tweenToThirdPile.chain(tweenToFourthPile)));
-
-			//tweenToFirstPile.start();
-
-
 		}
 
 		playingCardSelected(card: PlayingCard) {
+			if (!this.canPlayCard) {
+				return;
+			}
+
 			var lastDealtCard = this.availableCards.getAt(this.currentDeckPosition) as PlayingCard;
 
 			if (card.parent) {
