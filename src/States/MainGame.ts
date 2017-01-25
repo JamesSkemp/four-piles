@@ -48,7 +48,6 @@
 		 */
 		availableCards: Phaser.Group;
 
-		pileSetupStarted: boolean = false;
 		/**
 		 * Deck with the cards that will be used during the game.
 		 */
@@ -103,11 +102,17 @@
 			//this.fourthPile.setupTween.to({ x: this.fourthCardPileX, y: this.cardPileY }, 1000, Phaser.Easing.Linear.None);
 
 			// Setup the two piles that player's cards will start in.
-			this.leftPlayerCardPile = this.game.add.sprite(this.firstCardPileX, this.playerCardPileY, 'cardBacks', Game.DECK_BACK_ID);
+			this.leftPlayerPileCards = new Phaser.Group(this.game);
+			this.leftPlayerPile = new CardPile(this.game, this.secondCardPileX, this.playerCardPileY, Game.DECK_BACK_ID, true, true);
+
+			this.leftPlayerCardPile = this.game.add.sprite(this.secondCardPileX, this.playerCardPileY, 'cardBacks', Game.DECK_BACK_ID);
 			this.leftPlayerCardPile.visible = false;
 			this.leftPlayerCardPile.anchor.set(0.5);
 			
-			this.rightPlayerCardPile = this.game.add.sprite(this.fourthCardPileX, this.playerCardPileY, 'cardBacks', Game.DECK_BACK_ID);
+			this.rightPlayerPileCards = new Phaser.Group(this.game);
+			this.rightPlayerPile = new CardPile(this.game, this.thirdCardPileX, this.playerCardPileY, Game.DECK_BACK_ID, true, true);
+
+			this.rightPlayerCardPile = this.game.add.sprite(this.thirdCardPileX, this.playerCardPileY, 'cardBacks', Game.DECK_BACK_ID);
 			this.rightPlayerCardPile.visible = false;
 			this.rightPlayerCardPile.anchor.set(0.5);
 
@@ -168,52 +173,53 @@
 		 */
 		setupPlayPiles() {
 			//console.log(arguments);
-			if (!this.pileSetupStarted) {
-				this.pileSetupStarted = true;
 
-				// Grab the first four cards off the top of the deck.
-				var firstPileCard = this.availableCards.getAt(0) as PlayingCard;
-				var secondPileCard = this.availableCards.getAt(1) as PlayingCard;
-				var thirdPileCard = this.availableCards.getAt(2) as PlayingCard;
-				var fourthPileCard = this.availableCards.getAt(3) as PlayingCard;
+			// Grab the first four cards off the top of the deck.
+			var firstPileCard = this.availableCards.getAt(0) as PlayingCard;
+			var secondPileCard = this.availableCards.getAt(1) as PlayingCard;
+			var thirdPileCard = this.availableCards.getAt(2) as PlayingCard;
+			var fourthPileCard = this.availableCards.getAt(3) as PlayingCard;
 
-				// Setup tweens on each of the four cards to move them to the correct starting piles.
-				var tweenToFirstPile = this.game.add.tween(firstPileCard);
-				tweenToFirstPile.to({ x: this.firstPile.x, y: this.firstPile.y }, 1000, Phaser.Easing.Linear.None);
-				tweenToFirstPile.onComplete.addOnce(() => {
-					this.firstPile.addCard(firstPileCard.card);
-					this.firstPileCards.add(firstPileCard);
-				});
+			// Setup tweens on each of the four cards to move them to the correct starting piles.
+			var tweenToFirstPile = this.game.add.tween(firstPileCard);
+			tweenToFirstPile.to({ x: this.firstPile.x, y: this.firstPile.y }, 1000, Phaser.Easing.Linear.None);
+			tweenToFirstPile.onComplete.addOnce(() => {
+				this.firstPile.addCard(firstPileCard.card);
+				this.firstPileCards.add(firstPileCard);
+			});
 
-				var tweenToSecondPile = this.game.add.tween(secondPileCard);
-				tweenToSecondPile.to({ x: this.secondPile.x, y: this.thirdPile.y }, 1000, Phaser.Easing.Linear.None);
-				tweenToSecondPile.onComplete.addOnce(() => {
-					this.secondPile.addCard(secondPileCard.card);
-					this.secondPileCards.add(secondPileCard);
-				});
+			var tweenToSecondPile = this.game.add.tween(secondPileCard);
+			tweenToSecondPile.to({ x: this.secondPile.x, y: this.thirdPile.y }, 1000, Phaser.Easing.Linear.None);
+			tweenToSecondPile.onComplete.addOnce(() => {
+				this.secondPile.addCard(secondPileCard.card);
+				this.secondPileCards.add(secondPileCard);
+			});
 
-				var tweenToThirdPile = this.game.add.tween(thirdPileCard);
-				tweenToThirdPile.to({ x: this.thirdPile.x, y: this.thirdPile.y }, 1000, Phaser.Easing.Linear.None);
-				tweenToThirdPile.onComplete.addOnce(() => {
-					this.thirdPile.addCard(thirdPileCard.card);
-					this.thirdPileCards.add(thirdPileCard);
-				});
+			var tweenToThirdPile = this.game.add.tween(thirdPileCard);
+			tweenToThirdPile.to({ x: this.thirdPile.x, y: this.thirdPile.y }, 1000, Phaser.Easing.Linear.None);
+			tweenToThirdPile.onComplete.addOnce(() => {
+				this.thirdPile.addCard(thirdPileCard.card);
+				this.thirdPileCards.add(thirdPileCard);
+			});
 
-				var tweenToFourthPile = this.game.add.tween(fourthPileCard);
-				tweenToFourthPile.to({ x: this.fourthPile.x, y: this.fourthPile.y }, 1000, Phaser.Easing.Linear.None);
-				tweenToFourthPile.onComplete.addOnce(() => {
-					this.fourthPile.addCard(fourthPileCard.card);
-					this.fourthPileCards.add(fourthPileCard);
-				});
+			var tweenToFourthPile = this.game.add.tween(fourthPileCard);
+			tweenToFourthPile.to({ x: this.fourthPile.x, y: this.fourthPile.y }, 1000, Phaser.Easing.Linear.None);
+			tweenToFourthPile.onComplete.addOnce(() => {
+				this.fourthPile.addCard(fourthPileCard.card);
+				this.fourthPileCards.add(fourthPileCard);
 
-				tweenToFirstPile.chain(tweenToSecondPile.chain(tweenToThirdPile.chain(tweenToFourthPile)));
+				// Setup the player piles.
+				this.setupPlayerPiles();
+			});
 
-				tweenToFirstPile.start();
+			tweenToFirstPile.chain(tweenToSecondPile.chain(tweenToThirdPile.chain(tweenToFourthPile)));
 
-				// Create a new temporary card to move around the screen.
-				//this.temporaryCard = new PlayingCard(this.game, this.cardStartingLocation.x, this.cardStartingLocation.y, null, Game.DECK_BACK_ID);
+			tweenToFirstPile.start();
 
-				//var topCard = this.deck.drawCard();
+			// Create a new temporary card to move around the screen.
+			//this.temporaryCard = new PlayingCard(this.game, this.cardStartingLocation.x, this.cardStartingLocation.y, null, Game.DECK_BACK_ID);
+
+			//var topCard = this.deck.drawCard();
 
 
 			//this.temporaryCard = new PlayingCard(this.game, this.mainDeckCardPile.x, this.mainDeckCardPile.y, null, Game.DECK_BACK_ID);
@@ -221,8 +227,51 @@
 			//this.game.world.bringToTop(this.temporaryCard);
 
 
-				//this.mainDeckCardPile.events.onInputDown.remove(this.setupPiles);
-			}
+			//this.mainDeckCardPile.events.onInputDown.remove(this.setupPiles);
+		}
+
+		/**
+		 * Setup the two player piles with the remaining cards.
+		 */
+		setupPlayerPiles() {
+			var leftPlayerTemp1 = this.temporaryDealingCards.getAt(0) as Phaser.Sprite;
+			var leftPlayerTemp2 = this.temporaryDealingCards.getAt(2) as Phaser.Sprite;
+			var leftPlayerTemp3 = this.temporaryDealingCards.getAt(4) as Phaser.Sprite;
+			var rightPlayerTemp1 = this.temporaryDealingCards.getAt(1) as Phaser.Sprite;
+			var rightPlayerTemp2 = this.temporaryDealingCards.getAt(3) as Phaser.Sprite;
+			var rightPlayerTemp3 = this.temporaryDealingCards.getAt(5) as Phaser.Sprite;
+			//console.log(arguments);
+			var tweenToLeftPlayerPile1 = this.game.add.tween(leftPlayerTemp1);
+			tweenToLeftPlayerPile1.to({ x: this.leftPlayerPile.x, y: this.leftPlayerPile.y }, 1000, Phaser.Easing.Linear.None);
+			tweenToLeftPlayerPile1.onComplete.addOnce(() => {
+				this.leftPlayerCardPile.visible = true;
+				console.log('left 1');
+			});
+			var tweenToLeftPlayerPile2 = this.game.add.tween(leftPlayerTemp2);
+			tweenToLeftPlayerPile2.to({ x: this.leftPlayerPile.x, y: this.leftPlayerPile.y }, 1000, Phaser.Easing.Linear.None);
+			var tweenToLeftPlayerPile3 = this.game.add.tween(leftPlayerTemp2);
+			tweenToLeftPlayerPile3.to({ x: this.leftPlayerPile.x, y: this.leftPlayerPile.y }, 1000, Phaser.Easing.Linear.None);
+
+			var tweenToRightPlayerPile1 = this.game.add.tween(rightPlayerTemp1);
+			tweenToRightPlayerPile1.to({ x: this.rightPlayerPile.x, y: this.rightPlayerPile.y }, 1000, Phaser.Easing.Linear.None);
+			tweenToRightPlayerPile1.onComplete.addOnce(() => {
+				this.rightPlayerCardPile.visible = true;
+				console.log('right 1');
+			});
+			var tweenToRightPlayerPile2 = this.game.add.tween(rightPlayerTemp2);
+			tweenToRightPlayerPile2.to({ x: this.rightPlayerPile.x, y: this.rightPlayerPile.y }, 1000, Phaser.Easing.Linear.None);
+			var tweenToRightPlayerPile3 = this.game.add.tween(rightPlayerTemp2);
+			tweenToRightPlayerPile3.to({ x: this.rightPlayerPile.x, y: this.rightPlayerPile.y }, 1000, Phaser.Easing.Linear.None);
+
+
+			tweenToLeftPlayerPile1.chain(tweenToRightPlayerPile1.chain(tweenToLeftPlayerPile2.chain(tweenToRightPlayerPile2.chain(tweenToLeftPlayerPile3.chain(tweenToRightPlayerPile3)))));
+
+			tweenToLeftPlayerPile1.start();
+
+			//tweenToFirstPile.chain(tweenToSecondPile.chain(tweenToThirdPile.chain(tweenToFourthPile)));
+
+			//tweenToFirstPile.start();
+
 
 		}
 	}
