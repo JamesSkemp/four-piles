@@ -103,16 +103,16 @@
 
 			// Setup the two piles that player's cards will start in.
 			this.leftPlayerPileCards = new Phaser.Group(this.game);
-			this.leftPlayerPile = new CardPile(this.game, this.secondCardPileX, this.playerCardPileY, Game.DECK_BACK_ID, true, true);
+			this.leftPlayerPile = new CardPile(this.game, this.game.world.centerX / 2, this.playerCardPileY, Game.DECK_BACK_ID, true, true);
 
-			this.leftPlayerCardPile = this.game.add.sprite(this.secondCardPileX, this.playerCardPileY, 'cardBacks', Game.DECK_BACK_ID);
+			this.leftPlayerCardPile = this.game.add.sprite(this.leftPlayerPile.x, this.leftPlayerPile.y, 'cardBacks', Game.DECK_BACK_ID);
 			this.leftPlayerCardPile.visible = false;
 			this.leftPlayerCardPile.anchor.set(0.5);
 			
 			this.rightPlayerPileCards = new Phaser.Group(this.game);
-			this.rightPlayerPile = new CardPile(this.game, this.thirdCardPileX, this.playerCardPileY, Game.DECK_BACK_ID, true, true);
+			this.rightPlayerPile = new CardPile(this.game, this.game.world.centerX * 1.5, this.playerCardPileY, Game.DECK_BACK_ID, true, true);
 
-			this.rightPlayerCardPile = this.game.add.sprite(this.thirdCardPileX, this.playerCardPileY, 'cardBacks', Game.DECK_BACK_ID);
+			this.rightPlayerCardPile = this.game.add.sprite(this.rightPlayerPile.x, this.rightPlayerPile.y, 'cardBacks', Game.DECK_BACK_ID);
 			this.rightPlayerCardPile.visible = false;
 			this.rightPlayerCardPile.anchor.set(0.5);
 
