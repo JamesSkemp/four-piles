@@ -35,8 +35,10 @@
 
 		leftPlayerPile: CardPile;
 		leftPlayerPileCards: Phaser.Group;
+		leftPlayerScore: number = 0;
 		rightPlayerPile: CardPile;
 		rightPlayerPileCards: Phaser.Group;
+		rightPlayerScore: number = 0;
 
 		temporaryCard: Phaser.Sprite;
 		/**
@@ -336,6 +338,10 @@
 			tweenToLeftPlayerPile1.start();
 		}
 
+		/**
+		 * Place the current player card on top of a particular pile.
+		 * @param card Playing Card in the pile to be played on.
+		 */
 		playingCardSelected(card: PlayingCard) {
 			if (!this.canPlayCard) {
 				return;
@@ -352,6 +358,8 @@
 					console.log('move to pile 1');
 					movementTween.to({ x: this.firstPile.x, y: this.firstPile.y }, 1000, Phaser.Easing.Linear.None);
 					movementTween.onComplete.addOnce(() => {
+						console.log('difference');
+						console.log(lastDealtCard.difference(card));
 						this.firstPile.addCard(lastDealtCard.card);
 						this.firstPileCards.add(lastDealtCard);
 						this.dealNextCard();
@@ -361,6 +369,8 @@
 					console.log('move to pile 2');
 					movementTween.to({ x: this.secondPile.x, y: this.secondPile.y }, 1000, Phaser.Easing.Linear.None);
 					movementTween.onComplete.addOnce(() => {
+						console.log('difference');
+						console.log(lastDealtCard.difference(card));
 						this.secondPile.addCard(lastDealtCard.card);
 						this.secondPileCards.add(lastDealtCard);
 						this.dealNextCard();
@@ -370,6 +380,8 @@
 					console.log('move to pile 3');
 					movementTween.to({ x: this.thirdPile.x, y: this.thirdPile.y }, 1000, Phaser.Easing.Linear.None);
 					movementTween.onComplete.addOnce(() => {
+						console.log('difference');
+						console.log(lastDealtCard.difference(card));
 						this.thirdPile.addCard(lastDealtCard.card);
 						this.thirdPileCards.add(lastDealtCard);
 						this.dealNextCard();
@@ -379,6 +391,8 @@
 					console.log('move to pile 4');
 					movementTween.to({ x: this.fourthPile.x, y: this.fourthPile.y }, 1000, Phaser.Easing.Linear.None);
 					movementTween.onComplete.addOnce(() => {
+						console.log('difference');
+						console.log(lastDealtCard.difference(card));
 						this.fourthPile.addCard(lastDealtCard.card);
 						this.fourthPileCards.add(lastDealtCard);
 						this.dealNextCard();
