@@ -17,5 +17,12 @@ module GameIdea45Project {
 
 			game.add.existing(this);
 		}
+
+		/**
+		 * Return the difference between this card and another.
+		 */
+		difference(playingCard: PlayingCard): number {
+			return this.card.rank - playingCard.card.rank;
+		}
 	}
 }
