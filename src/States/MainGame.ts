@@ -53,6 +53,15 @@
 		 */
 		deck: Deck;
 
+		/**
+		 * Current player. 1 = left player, 2 = right player.
+		 */
+		currentPlayer: number;
+		/**
+		 * Current position in the deck of cards.
+		 */
+		currentDeckPosition: number = 0;
+
 		init() {
 			console.log((new Date).toISOString() + ' : Entered MainGame init()');
 			// init can receive parameters.
@@ -179,6 +188,7 @@
 			var secondPileCard = this.availableCards.getAt(1) as PlayingCard;
 			var thirdPileCard = this.availableCards.getAt(2) as PlayingCard;
 			var fourthPileCard = this.availableCards.getAt(3) as PlayingCard;
+			this.currentDeckPosition = 4;
 
 			// Setup tweens on each of the four cards to move them to the correct starting piles.
 			var tweenToFirstPile = this.game.add.tween(firstPileCard);
@@ -209,7 +219,8 @@
 				this.fourthPileCards.add(fourthPileCard);
 
 				// Setup the player piles.
-				this.setupPlayerPiles();
+				//this.setupPlayerPiles();
+				this.dealFirstCard();
 			});
 
 			tweenToFirstPile.chain(tweenToSecondPile.chain(tweenToThirdPile.chain(tweenToFourthPile)));
@@ -228,6 +239,29 @@
 
 
 			//this.mainDeckCardPile.events.onInputDown.remove(this.setupPiles);
+		}
+
+		/**
+		 * Determine and deal the first card to whichever player will go first.
+		 */
+		dealFirstCard() {
+			// Determine the first player.
+			this.currentPlayer = this.game.rnd.integerInRange(1, 2);
+
+			var dealingLocation = this.getCardDealLocation();
+
+			var dealingTween = this.game.add.tween(this.availableCards.getAt(this.currentDeckPosition)).to({ x: dealingLocation.x, y: dealingLocation.y }, 1000, Phaser.Easing.Linear.None, true);
+		}
+
+		/**
+		 * Get the location to deal the card for the next player.
+		 */
+		getCardDealLocation(): Phaser.Point {
+			if (this.currentPlayer == 1) {
+				return this.leftPlayerPile.position;
+			} else {
+				return this.rightPlayerPile.position;
+			}
 		}
 
 		/**
