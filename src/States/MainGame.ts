@@ -358,10 +358,9 @@
 					console.log('move to pile 1');
 					movementTween.to({ x: this.firstPile.x, y: this.firstPile.y }, 1000, Phaser.Easing.Linear.None);
 					movementTween.onComplete.addOnce(() => {
-						console.log('difference');
-						console.log(lastDealtCard.difference(card));
 						this.firstPile.addCard(lastDealtCard.card);
 						this.firstPileCards.add(lastDealtCard);
+						this.scorePlay(lastDealtCard.difference(card));
 						this.dealNextCard();
 					});
 					movementTween.start();
@@ -369,10 +368,9 @@
 					console.log('move to pile 2');
 					movementTween.to({ x: this.secondPile.x, y: this.secondPile.y }, 1000, Phaser.Easing.Linear.None);
 					movementTween.onComplete.addOnce(() => {
-						console.log('difference');
-						console.log(lastDealtCard.difference(card));
 						this.secondPile.addCard(lastDealtCard.card);
 						this.secondPileCards.add(lastDealtCard);
+						this.scorePlay(lastDealtCard.difference(card));
 						this.dealNextCard();
 					});
 					movementTween.start();
@@ -380,10 +378,9 @@
 					console.log('move to pile 3');
 					movementTween.to({ x: this.thirdPile.x, y: this.thirdPile.y }, 1000, Phaser.Easing.Linear.None);
 					movementTween.onComplete.addOnce(() => {
-						console.log('difference');
-						console.log(lastDealtCard.difference(card));
 						this.thirdPile.addCard(lastDealtCard.card);
 						this.thirdPileCards.add(lastDealtCard);
+						this.scorePlay(lastDealtCard.difference(card));
 						this.dealNextCard();
 					});
 					movementTween.start();
@@ -391,10 +388,9 @@
 					console.log('move to pile 4');
 					movementTween.to({ x: this.fourthPile.x, y: this.fourthPile.y }, 1000, Phaser.Easing.Linear.None);
 					movementTween.onComplete.addOnce(() => {
-						console.log('difference');
-						console.log(lastDealtCard.difference(card));
 						this.fourthPile.addCard(lastDealtCard.card);
 						this.fourthPileCards.add(lastDealtCard);
+						this.scorePlay(lastDealtCard.difference(card));
 						this.dealNextCard();
 					});
 					movementTween.start();
@@ -402,6 +398,21 @@
 			}
 			console.log(card);
 			//console.log(arguments);
+		}
+
+		/**
+		 * Give the current player points based upon what's played.
+		 */
+		scorePlay(difference: number) {
+			if (this.currentPlayer == 1) {
+				// First/left player gets whatever the difference is.
+				this.leftPlayerScore += difference;
+			} else {
+				// Second/right player gets the opposite difference.
+				this.rightPlayerScore += (difference * -1);
+			}
+			console.log('p1 ' + this.leftPlayerScore);
+			console.log('p2 ' + this.rightPlayerScore);
 		}
 	}
 }
