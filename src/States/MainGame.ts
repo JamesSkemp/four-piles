@@ -28,6 +28,9 @@
 		thirdPileCards: Phaser.Group;
 		fourthPile: CardPile;
 		fourthPileCards: Phaser.Group;
+
+		leftPlayerScoreText: Phaser.Text;
+		rightPlayerScoreText: Phaser.Text;
 		
 		// TODO switch next two (or three?) to CardPile
 		leftPlayerCardPile: Phaser.Sprite;
@@ -169,6 +172,15 @@
 			}
 		}
 
+		setupScoreText() {
+			var scoreFont = { font: 'Arial', fontSize: '20px', fill: '#fff' };
+
+			this.leftPlayerScoreText = this.game.add.text(this.game.world.centerX / 2, 0, 'Player One: ' + this.leftPlayerScore, scoreFont);
+			this.leftPlayerScoreText.x -= this.leftPlayerScoreText.width / 2;
+			this.rightPlayerScoreText = this.game.add.text(this.game.world.centerX * 1.5, 0, 'Player Two: ' + this.rightPlayerScore, scoreFont);
+			this.rightPlayerScoreText.x -= this.rightPlayerScoreText.width / 2;
+		}
+
 		update() {
 
 		}
@@ -231,6 +243,7 @@
 
 				// Setup the player piles.
 				//this.setupPlayerPiles();
+				this.setupScoreText();
 				this.dealFirstCard();
 			});
 
@@ -407,12 +420,12 @@
 			if (this.currentPlayer == 1) {
 				// First/left player gets whatever the difference is.
 				this.leftPlayerScore += difference;
+				this.leftPlayerScoreText.text = "Player One: " + this.leftPlayerScore;
 			} else {
 				// Second/right player gets the opposite difference.
 				this.rightPlayerScore += (difference * -1);
+				this.rightPlayerScoreText.text = "Player Two: " + this.rightPlayerScore;
 			}
-			console.log('p1 ' + this.leftPlayerScore);
-			console.log('p2 ' + this.rightPlayerScore);
 		}
 	}
 }
