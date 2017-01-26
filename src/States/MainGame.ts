@@ -22,12 +22,16 @@
 
 		firstPile: CardPile;
 		firstPileCards: Phaser.Group;
+		firstPileText: Phaser.Text;
 		secondPile: CardPile;
 		secondPileCards: Phaser.Group;
+		secondPileText: Phaser.Text;
 		thirdPile: CardPile;
 		thirdPileCards: Phaser.Group;
+		thirdPileText: Phaser.Text;
 		fourthPile: CardPile;
 		fourthPileCards: Phaser.Group;
+		fourthPileText: Phaser.Text;
 
 		leftPlayerScoreText: Phaser.Text;
 		rightPlayerScoreText: Phaser.Text;
@@ -175,10 +179,26 @@
 		setupScoreText() {
 			var scoreFont = { font: 'Arial', fontSize: '20px', fill: '#fff' };
 
-			this.leftPlayerScoreText = this.game.add.text(this.game.world.centerX / 2, 0, 'Player One: ' + this.leftPlayerScore, scoreFont);
+			this.leftPlayerScoreText = this.game.add.text(this.game.world.centerX / 2, this.game.world.height / 100, 'Player One: ' + this.leftPlayerScore, scoreFont);
 			this.leftPlayerScoreText.x -= this.leftPlayerScoreText.width / 2;
-			this.rightPlayerScoreText = this.game.add.text(this.game.world.centerX * 1.5, 0, 'Player Two: ' + this.rightPlayerScore, scoreFont);
+			this.rightPlayerScoreText = this.game.add.text(this.game.world.centerX * 1.5, this.game.world.height / 100, 'Player Two: ' + this.rightPlayerScore, scoreFont);
 			this.rightPlayerScoreText.x -= this.rightPlayerScoreText.width / 2;
+		}
+
+		/**
+		 * Setup text associated with each pile.
+		 */
+		setupPileText() {
+			var pileFont = { font: 'Arial', fontSize: '15px', fill: '#fff' };
+			var halfCardWidth = this.firstPile.width / 2;
+			var halfCardHeight = this.firstPile.height / 2;
+
+			this.firstPileText = this.game.add.text(this.firstPile.x - halfCardWidth / 2, this.firstPile.y + halfCardHeight * 1.1, this.getPileText(this.firstPileCards.length), pileFont);
+			this.secondPileText = this.game.add.text(this.secondPile.x - halfCardWidth / 2, this.secondPile.y + halfCardHeight * 1.1, this.getPileText(this.secondPileCards.length), pileFont);
+			this.thirdPileText = this.game.add.text(this.thirdPile.x - halfCardWidth / 2, this.thirdPile.y + halfCardHeight * 1.1, this.getPileText(this.thirdPileCards.length), pileFont);
+			this.fourthPileText = this.game.add.text(this.fourthPile.x - halfCardWidth / 2, this.fourthPile.y + halfCardHeight * 1.1, this.getPileText(this.fourthPileCards.length), pileFont);
+
+			this.game.world.bringToTop(this.availableCards);
 		}
 
 		update() {
@@ -243,6 +263,7 @@
 
 				// Setup the player piles.
 				//this.setupPlayerPiles();
+				this.setupPileText();
 				this.setupScoreText();
 				this.dealFirstCard();
 			});
@@ -371,6 +392,7 @@
 					movementTween.onComplete.addOnce(() => {
 						this.firstPile.addCard(lastDealtCard.card);
 						this.firstPileCards.add(lastDealtCard);
+						this.updatePileText();
 						this.scorePlay(lastDealtCard.difference(card));
 						this.dealNextCard();
 					});
@@ -380,6 +402,7 @@
 					movementTween.onComplete.addOnce(() => {
 						this.secondPile.addCard(lastDealtCard.card);
 						this.secondPileCards.add(lastDealtCard);
+						this.updatePileText();
 						this.scorePlay(lastDealtCard.difference(card));
 						this.dealNextCard();
 					});
@@ -389,6 +412,7 @@
 					movementTween.onComplete.addOnce(() => {
 						this.thirdPile.addCard(lastDealtCard.card);
 						this.thirdPileCards.add(lastDealtCard);
+						this.updatePileText();
 						this.scorePlay(lastDealtCard.difference(card));
 						this.dealNextCard();
 					});
@@ -398,6 +422,7 @@
 					movementTween.onComplete.addOnce(() => {
 						this.fourthPile.addCard(lastDealtCard.card);
 						this.fourthPileCards.add(lastDealtCard);
+						this.updatePileText();
 						this.scorePlay(lastDealtCard.difference(card));
 						this.dealNextCard();
 					});
@@ -419,6 +444,24 @@
 				// Second/right player gets the opposite difference.
 				this.rightPlayerScore += (difference * -1);
 				this.rightPlayerScoreText.text = "Player Two: " + this.rightPlayerScore;
+			}
+		}
+
+		/**
+		 * Update display of cards in each pile.
+		 */
+		updatePileText() {
+			this.firstPileText.text = this.getPileText(this.firstPileCards.length);
+			this.secondPileText.text = this.getPileText(this.secondPileCards.length);
+			this.thirdPileText.text = this.getPileText(this.thirdPileCards.length);
+			this.fourthPileText.text = this.getPileText(this.fourthPileCards.length);
+		}
+
+		getPileText(size: number): string {
+			if (size == 1) {
+				return size + ' card';
+			} else {
+				return size + ' cards';
 			}
 		}
 	}
