@@ -34,8 +34,10 @@
 		fourthPileText: Phaser.Text;
 
 		leftPlayerScoreText: Phaser.Text;
+		leftPlayerScoreHelp: Phaser.Text;
 		rightPlayerScoreText: Phaser.Text;
-		
+		rightPlayerScoreHelp: Phaser.Text;
+
 		// TODO switch next two (or three?) to CardPile
 		leftPlayerCardPile: Phaser.Sprite;
 		rightPlayerCardPile: Phaser.Sprite;
@@ -181,8 +183,13 @@
 
 			this.leftPlayerScoreText = this.game.add.text(this.game.world.centerX / 2, this.game.world.height / 100, 'Player One: ' + this.leftPlayerScore, scoreFont);
 			this.leftPlayerScoreText.x -= this.leftPlayerScoreText.width / 2;
+			this.leftPlayerScoreHelp = this.game.add.text(this.firstCardPileX - this.firstPile.width / 2, this.leftPlayerScoreText.y + this.leftPlayerScoreText.height, 'Player one scores by playing higher cards.', scoreFont);
+			this.leftPlayerScoreHelp.fontSize = '15px';
+
 			this.rightPlayerScoreText = this.game.add.text(this.game.world.centerX * 1.5, this.game.world.height / 100, 'Player Two: ' + this.rightPlayerScore, scoreFont);
 			this.rightPlayerScoreText.x -= this.rightPlayerScoreText.width / 2;
+			this.rightPlayerScoreHelp = this.game.add.text(this.thirdCardPileX - this.thirdPile.width / 2, this.rightPlayerScoreText.y + this.rightPlayerScoreText.height, 'Player two scores by playing lower cards.', scoreFont);
+			this.rightPlayerScoreHelp.fontSize = '15px';
 		}
 
 		/**
