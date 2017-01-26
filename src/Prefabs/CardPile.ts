@@ -32,8 +32,8 @@ module GameIdea45Project {
 			if (this.showTopCard) {
 				this.loadTexture(card.getCardKeyName());
 			}
-			console.log('New cards: ' + this.cards);
-			console.log(this);
+			//console.log('New cards: ' + this.cards);
+			//console.log(this);
 		}
 	}
 }

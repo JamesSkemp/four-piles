@@ -231,7 +231,7 @@
 			var secondPileCard = this.availableCards.getAt(1) as PlayingCard;
 			var thirdPileCard = this.availableCards.getAt(2) as PlayingCard;
 			var fourthPileCard = this.availableCards.getAt(3) as PlayingCard;
-			this.currentDeckPosition = 4;
+			//this.currentDeckPosition = 4;
 
 			// Setup tweens on each of the four cards to move them to the correct starting piles.
 			var tweenToFirstPile = this.game.add.tween(firstPileCard);
