@@ -139,10 +139,10 @@
 			// Create a new deck of cards.
 			this.deck = new Deck();
 			this.deck.createStandardDeck();
-			console.log(this.deck.toString());
+			//console.log(this.deck.toString());
 			// Shuffle the cards.
 			this.deck.shuffle();
-			console.log(this.deck.toString());
+			//console.log(this.deck.toString());
 
 			// Where cards will start. This is where the cards went when they were clicked on to start the game from the menu.
 			this.cardStartingLocation = new Phaser.Point(this.game.world.centerX, this.game.world.height + this.firstPile.height);
@@ -366,9 +366,7 @@
 				var groupName = (card.parent as Phaser.Group).name;
 				var movementTween = this.game.add.tween(lastDealtCard);
 
-				console.log('a playing card was selected');
 				if (groupName == "pile1") {
-					console.log('move to pile 1');
 					movementTween.to({ x: this.firstPile.x, y: this.firstPile.y }, 1000, Phaser.Easing.Linear.None);
 					movementTween.onComplete.addOnce(() => {
 						this.firstPile.addCard(lastDealtCard.card);
@@ -378,7 +376,6 @@
 					});
 					movementTween.start();
 				} else if (groupName == "pile2") {
-					console.log('move to pile 2');
 					movementTween.to({ x: this.secondPile.x, y: this.secondPile.y }, 1000, Phaser.Easing.Linear.None);
 					movementTween.onComplete.addOnce(() => {
 						this.secondPile.addCard(lastDealtCard.card);
@@ -388,7 +385,6 @@
 					});
 					movementTween.start();
 				} else if (groupName == "pile3") {
-					console.log('move to pile 3');
 					movementTween.to({ x: this.thirdPile.x, y: this.thirdPile.y }, 1000, Phaser.Easing.Linear.None);
 					movementTween.onComplete.addOnce(() => {
 						this.thirdPile.addCard(lastDealtCard.card);
@@ -398,7 +394,6 @@
 					});
 					movementTween.start();
 				} else if (groupName == "pile4") {
-					console.log('move to pile 4');
 					movementTween.to({ x: this.fourthPile.x, y: this.fourthPile.y }, 1000, Phaser.Easing.Linear.None);
 					movementTween.onComplete.addOnce(() => {
 						this.fourthPile.addCard(lastDealtCard.card);
@@ -409,7 +404,6 @@
 					movementTween.start();
 				}
 			}
-			console.log(card);
 			//console.log(arguments);
 		}
 
