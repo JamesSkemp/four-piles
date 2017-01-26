@@ -178,6 +178,9 @@
 			}
 		}
 
+		/**
+		 * Setup text associated with player scores.
+		 */
 		setupScoreText() {
 			var scoreFont = { font: 'Arial', fontSize: '20px', fill: '#fff' };
 
@@ -268,8 +271,7 @@
 				this.fourthPile.addCard(fourthPileCard.card);
 				this.fourthPileCards.add(fourthPileCard);
 
-				// Setup the player piles.
-				//this.setupPlayerPiles();
+				// Setup the game field.
 				this.setupPileText();
 				this.setupScoreText();
 				this.dealFirstCard();
@@ -278,19 +280,6 @@
 			tweenToFirstPile.chain(tweenToSecondPile.chain(tweenToThirdPile.chain(tweenToFourthPile)));
 
 			tweenToFirstPile.start();
-
-			// Create a new temporary card to move around the screen.
-			//this.temporaryCard = new PlayingCard(this.game, this.cardStartingLocation.x, this.cardStartingLocation.y, null, Game.DECK_BACK_ID);
-
-			//var topCard = this.deck.drawCard();
-
-
-			//this.temporaryCard = new PlayingCard(this.game, this.mainDeckCardPile.x, this.mainDeckCardPile.y, null, Game.DECK_BACK_ID);
-			//this.temporaryCard = new PlayingCard(this.game, this.mainDeckCardPile.x, this.mainDeckCardPile.y, newDeck.cards[0], Game.DECK_BACK_ID);
-			//this.game.world.bringToTop(this.temporaryCard);
-
-
-			//this.mainDeckCardPile.events.onInputDown.remove(this.setupPiles);
 		}
 
 		/**
@@ -464,6 +453,9 @@
 			this.fourthPileText.text = this.getPileText(this.fourthPileCards.length);
 		}
 
+		/**
+		 * Get the text to display under a pile with the number of cards in the pile.
+		 */
 		getPileText(size: number): string {
 			if (size == 1) {
 				return size + ' card';
