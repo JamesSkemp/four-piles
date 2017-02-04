@@ -78,7 +78,7 @@
 		canPlayCard: boolean = false;;
 
 		init() {
-			console.log((new Date).toISOString() + ' : Entered MainGame init()');
+			//console.log((new Date).toISOString() + ' : Entered MainGame init()');
 			// init can receive parameters.
 
 			this.firstCardPileX = this.game.world.width / 8;
@@ -92,7 +92,7 @@
 		}
 
 		preload() {
-			console.log((new Date).toISOString() + ' : Entered MainGame preload()');
+			//console.log((new Date).toISOString() + ' : Entered MainGame preload()');
 
 			// Recommendation is to limit calls to the Phaser Loader only. (Interphase 1, pg 29)
 		}
@@ -102,7 +102,7 @@
 		}
 
 		create() {
-			console.log((new Date).toISOString() + ' : Entered MainGame create()');
+			//console.log((new Date).toISOString() + ' : Entered MainGame create()');
 
 			// Setup the four main piles that cards will be played to.
 			this.firstPile = new CardPile(this.game, this.firstCardPileX, this.cardPileY, Game.DECK_BACK_ID, true, true);
@@ -220,18 +220,18 @@
 		}
 
 		paused() {
-			console.log((new Date).toISOString() + ' : Entered MainGame paused()');
+			//console.log((new Date).toISOString() + ' : Entered MainGame paused()');
 		}
 
 		pauseUpdate() {
 		}
 
 		resumed() {
-			console.log((new Date).toISOString() + ' : Entered MainGame resumed()');
+			//console.log((new Date).toISOString() + ' : Entered MainGame resumed()');
 		}
 
 		shutdown() {
-			console.log((new Date).toISOString() + ' : Entered MainGame shutdown()');
+			//console.log((new Date).toISOString() + ' : Entered MainGame shutdown()');
 		}
 
 		/**

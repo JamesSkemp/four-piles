@@ -10,7 +10,7 @@
 		subTextTween: Phaser.Tween;
 
 		create() {
-			console.log((new Date).toISOString() + ' : Entered MainMenu create()');
+			//console.log((new Date).toISOString() + ' : Entered MainMenu create()');
 
 			// Handle user input as needed.
 			this.mainDeck = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'cardBacks', Game.DECK_BACK_ID);
