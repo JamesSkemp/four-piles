@@ -1,4 +1,6 @@
-# Game Idea 45
+# Four Piles (aka Game Idea 45)
+
+Released February 3, 2017 to https://strivinglife.gitlab.io/phaser-games/four-piles/.
 
 ## Resources
 - Playing cards from Kenney's [Game Assets](https://kenney.itch.io/kenney-donation)
