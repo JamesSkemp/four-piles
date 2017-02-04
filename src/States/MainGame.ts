@@ -49,6 +49,8 @@
 		rightPlayerPileCards: Phaser.Group;
 		rightPlayerScore: number = 0;
 
+		winnerText: Phaser.Text;
+
 		temporaryCard: Phaser.Sprite;
 		/**
 		 * Collection of sprites with deck back shown, for use when dealing cards to piles.
@@ -185,13 +187,15 @@
 			var scoreFont = { font: 'Arial', fontSize: '20px', fill: '#fff' };
 
 			this.leftPlayerScoreText = this.game.add.text(this.game.world.centerX / 2, this.game.world.height / 100, 'Player One: ' + this.leftPlayerScore, scoreFont);
-			this.leftPlayerScoreText.x -= this.leftPlayerScoreText.width / 2;
-			this.leftPlayerScoreHelp = this.game.add.text(this.firstCardPileX - this.firstPile.width / 2, this.leftPlayerScoreText.y + this.leftPlayerScoreText.height, 'Player one scores by playing higher cards.', scoreFont);
+			this.leftPlayerScoreText.anchor.set(0.5);
+			this.leftPlayerScoreText.y += this.leftPlayerScoreText.height / 2;
+			this.leftPlayerScoreHelp = this.game.add.text(this.firstCardPileX - this.firstPile.width / 2, this.leftPlayerScoreText.y + this.leftPlayerScoreText.height / 2, 'Player one scores by playing higher cards.', scoreFont);
 			this.leftPlayerScoreHelp.fontSize = '15px';
 
 			this.rightPlayerScoreText = this.game.add.text(this.game.world.centerX * 1.5, this.game.world.height / 100, 'Player Two: ' + this.rightPlayerScore, scoreFont);
-			this.rightPlayerScoreText.x -= this.rightPlayerScoreText.width / 2;
-			this.rightPlayerScoreHelp = this.game.add.text(this.thirdCardPileX - this.thirdPile.width / 2, this.rightPlayerScoreText.y + this.rightPlayerScoreText.height, 'Player two scores by playing lower cards.', scoreFont);
+			this.rightPlayerScoreText.anchor.set(0.5);
+			this.rightPlayerScoreText.y += this.rightPlayerScoreText.height / 2;
+			this.rightPlayerScoreHelp = this.game.add.text(this.thirdCardPileX - this.thirdPile.width / 2, this.rightPlayerScoreText.y + this.rightPlayerScoreText.height / 2, 'Player two scores by playing lower cards.', scoreFont);
 			this.rightPlayerScoreHelp.fontSize = '15px';
 		}
 
@@ -301,7 +305,10 @@
 		 * Deal a card to the next player.
 		 */
 		dealNextCard() {
-			if (this.currentDeckPosition >= this.deck.cards.length || !this.canPlayCard) {
+			if (this.availableCards.length <= 0) {
+				this.gameOver();
+			}
+			else if (!this.canPlayCard){
 				return;
 			}
 
@@ -462,6 +469,85 @@
 			} else {
 				return size + ' cards';
 			}
+		}
+
+		/**
+		 * Display the winner and then trigger resetting the board.
+		 */
+		gameOver() {
+			var baseTextStyle = { font: 'Arial', fontSize: '80px', fill: '#fff' };
+			this.winnerText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, " ", baseTextStyle);
+			this.winnerText.y += this.winnerText.height;
+			this.winnerText.anchor.set(0.5);
+			this.winnerText.alpha = 0;
+			var tweenWinnerText = this.game.add.tween(this.winnerText);
+			tweenWinnerText.to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None);
+			tweenWinnerText.onComplete.addOnce(() => {
+				this.game.time.events.add(2000, () => {
+					this.resetBoard();
+				});
+			})
+
+			if (this.leftPlayerScore > this.rightPlayerScore) {
+				this.winnerText.text = "Player One Wins!";
+				var tweenLeftPlayerWin = this.game.add.tween(this.leftPlayerScoreText);
+				tweenLeftPlayerWin.to({ x: this.game.world.centerX, y: this.game.world.centerY }, 1000, Phaser.Easing.Linear.None);
+				tweenLeftPlayerWin.onComplete.addOnce(() => {
+					tweenWinnerText.start();
+				});
+				tweenLeftPlayerWin.start();
+			} else if (this.rightPlayerScore > this.leftPlayerScore) {
+				this.winnerText.text = "Player Two Wins!";
+				var tweenRightPlayerWin = this.game.add.tween(this.rightPlayerScoreText);
+				tweenRightPlayerWin.to({ x: this.game.world.centerX, y: this.game.world.centerY }, 1000, Phaser.Easing.Linear.None);
+				tweenRightPlayerWin.onComplete.addOnce(() => {
+					tweenWinnerText.start();
+				});
+				tweenRightPlayerWin.start();
+			} else {
+				this.winnerText.text = "Players Tie.";
+				tweenWinnerText.start();
+			}
+		}
+
+		/**
+		 * Remove all text and cards from the board, and transition back to the main menu.
+		 */
+		resetBoard() {
+			// Move the card piles down.
+			this.firstPile.visible = false;
+			this.secondPile.visible = false;
+			this.thirdPile.visible = false;
+			this.fourthPile.visible = false;
+
+			this.game.add.tween(this.firstPileCards).to({ y: this.game.world.height * 1.5 }, 1000, Phaser.Easing.Linear.None, true);
+			this.game.add.tween(this.secondPileCards).to({ y: this.game.world.height * 1.5 }, 1000, Phaser.Easing.Linear.None, true);
+			this.game.add.tween(this.thirdPileCards).to({ y: this.game.world.height * 1.5 }, 1000, Phaser.Easing.Linear.None, true);
+			this.game.add.tween(this.fourthPileCards).to({ y: this.game.world.height * 1.5 }, 1000, Phaser.Easing.Linear.None, true);
+
+			// Fade out all of the text.
+			this.game.add.tween(this.leftPlayerScoreText).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+			this.game.add.tween(this.leftPlayerScoreHelp).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+			this.game.add.tween(this.rightPlayerScoreText).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+			this.game.add.tween(this.rightPlayerScoreHelp).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+			this.game.add.tween(this.firstPileText).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+			this.game.add.tween(this.secondPileText).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+			this.game.add.tween(this.thirdPileText).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+			this.game.add.tween(this.fourthPileText).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+			this.game.add.tween(this.winnerText).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+
+			this.game.time.events.add(1000, () => {
+				var mainDeck = this.game.add.sprite(this.game.world.centerX, this.game.world.height * 1.5, 'cardBacks', Game.DECK_BACK_ID);
+				mainDeck.anchor.set(0.5);
+
+				var mainDeckTween = this.game.add.tween(mainDeck);
+				mainDeckTween.to({
+					x: this.game.world.centerX, y: this.game.world.centerY
+				}, 1500, Phaser.Easing.Linear.None, true, 500);
+				mainDeckTween.onComplete.add(() => {
+					this.game.state.start("MainMenu");
+				});
+			});
 		}
 	}
 }

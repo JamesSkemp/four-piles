@@ -24,7 +24,7 @@
 			this.mainDeckTween.onComplete.add(() => {
 				this.game.state.start('MainGame');
 			});
-			
+
 			this.mainDeck.events.onInputDown.add(this.startGame, this);
 
 			var baseTextStyle = { font: 'Arial', fontSize: '80px', fill: '#fff' };
