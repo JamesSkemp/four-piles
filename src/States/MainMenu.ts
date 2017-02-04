@@ -43,6 +43,7 @@
 			this.helpTextTween.to({ alpha: 0}, 1000);
 			// Add developer name information.
 			this.subText = this.game.add.text(this.game.world.width / 10, this.game.world.centerY * 1.75, 'Developed by James Skemp, jamesrskemp.com', baseTextStyle);
+			this.subText.text += "\nCard assets from Kenney's Game Assets, kenney.nl";
 			this.subText.fontSize = '20px';
 			this.subTextTween = this.game.add.tween(this.subText);
 			this.subTextTween.to({ alpha: 0}, 1000);

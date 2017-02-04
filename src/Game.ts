@@ -27,4 +27,10 @@
 
 window.onload = () => {
 	var game = new GameIdea45Project.Game();
+	try {
+		console.log('Four Piles');
+		console.log('Developed by James Skemp, jamesrskemp.com');
+	} catch (ex) {
+
+	}
 };
